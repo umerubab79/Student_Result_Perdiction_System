@@ -8,7 +8,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 print("=" * 60)
-print("       STUDENT PERFORMANCE PREDICTION SYSTEM (ANN)")
+print(" STUDENT PERFORMANCE PREDICTION SYSTEM (ANN)")
 print("=" * 60)
 
 df = pd.read_csv('student-mat.csv')
@@ -89,3 +89,8 @@ for i in range(min(10, len(predictions))):
 print("\n" + "=" * 60)
 print("Model Training Complete!")
 print("=" * 60)
+
+# Final success message
+print("\n Process Completed Successfully!")
+print("You can now use the trained model for predictions.")
+
