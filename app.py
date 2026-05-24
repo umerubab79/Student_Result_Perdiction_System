@@ -281,39 +281,51 @@ if page == "Prediction Form":
     st.caption("Student Performance Prediction System | ANN Model")
 
 elif page == "Analytics Dashboard":
-    st.header("📊 Analytics Dashboard")
-    st.write("Professional insights into student performance data")
+    st.header("Analytics Dashboard")
+    st.write("Comprehensive insights into student performance data")
 
     import matplotlib.pyplot as plt
     import seaborn as sns
     import plotly.express as px
 
-    # Histogram of Final Grades
-    fig1, ax1 = plt.subplots()
-    sns.histplot(df['G3'], bins=10, kde=True, color="skyblue", ax=ax1)
-    ax1.set_title("Distribution of Final Grades (G3)")
-    ax1.set_xlabel("Final Grade")
-    ax1.set_ylabel("Number of Students")
-    st.pyplot(fig1)
+    # --- Histogram: Distribution of Final Grades ---
+    fig_hist, ax_hist = plt.subplots()
+    sns.histplot(df['G3'], bins=10, kde=True, color="skyblue", ax=ax_hist)
+    ax_hist.set_title("Distribution of Final Grades (G3)", fontsize=12)
+    ax_hist.set_xlabel("Final Grade")
+    ax_hist.set_ylabel("Number of Students")
+    st.pyplot(fig_hist)
 
-    # Boxplot: Absences vs Grades
-    fig2, ax2 = plt.subplots()
-    sns.boxplot(x=df['G3'], y=df['absences'], palette="coolwarm", ax=ax2)
-    ax2.set_title("Absences vs Final Grade")
-    ax2.set_xlabel("Final Grade")
-    ax2.set_ylabel("Absences")
-    st.pyplot(fig2)
+    # --- Heatmap: Correlation Matrix ---
+    fig_corr, ax_corr = plt.subplots(figsize=(10,6))
+    sns.heatmap(df.corr(), annot=True, cmap="Blues", ax=ax_corr)
+    ax_corr.set_title("Correlation Matrix of Student Features", fontsize=12)
+    st.pyplot(fig_corr)
 
-    # Scatterplot with regression line
-    fig3 = px.scatter(df, x="studytime", y="G3", color="sex",
-                      trendline="ols", title="Study Time vs Final Grade")
-    st.plotly_chart(fig3, use_container_width=True)
 
-    # Bar chart: Average grade by school
+    # --- Boxplot: Absences vs Final Grades ---
+    fig_box, ax_box = plt.subplots()
+    sns.boxplot(x=df['G3'], y=df['absences'], palette="coolwarm", ax=ax_box)
+    ax_box.set_title("Absences vs Final Grade", fontsize=12)
+    ax_box.set_xlabel("Final Grade")
+    ax_box.set_ylabel("Absences")
+    st.pyplot(fig_box)
+
+    # --- Scatterplot: Study Time vs Final Grade ---
+    fig_scatter = px.scatter(
+        df, x="studytime", y="G3", color="sex",
+        trendline="ols",
+        title="Study Time vs Final Grade"
+    )
+    st.plotly_chart(fig_scatter, use_container_width=True)
+
+    # --- Bar Chart: Average Grade by School ---
     avg_grade = df.groupby("school")['G3'].mean().reset_index()
-    fig4 = px.bar(avg_grade, x="school", y="G3", color="school",
-                  title="Average Final Grade by School")
-    st.plotly_chart(fig4, use_container_width=True)
+    fig_bar = px.bar(
+        avg_grade, x="school", y="G3", color="school",
+        title="Average Final Grade by School"
+    )
+    st.plotly_chart(fig_bar, use_container_width=True)
 
 elif page == "About Project":
     st.header("ℹ️ About This Project")
